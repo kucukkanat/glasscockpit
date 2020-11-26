@@ -1,0 +1,22 @@
+# https://taskfile.dev
+
+version: "3"
+env:
+  BINARY_NAME: cockpitserver
+
+tasks:
+  dev:
+    dir: server
+    cmds:
+      - go run main.go
+    sources:
+      - server/**/*.go
+    method: timestamp
+  build:
+    dir: server
+    cmds:
+      - go build -o ../bin/${BINARY_NAME}.exe main.go
+  run:
+    dir: bin
+    cmds:
+      - ${BINARY_NAME}.exe
