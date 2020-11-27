@@ -31,13 +31,8 @@ export class Map {
 
     this.map.on("click", (event) => {
       const { lat, lng } = event.latlng;
-      client.teleport({
-        lat: lat,
-        lng: lng,
-        hdg: parseInt(document.querySelector("[name=heading]").value),
-        alt: parseInt(document.querySelector("[name=altitude]").value),
-      });
-      console.log(event);
+      this.teleportmarker.setLatLng([lat, lng]);
+      this.teleportDestination = [lat, lng];
     });
   }
   /**

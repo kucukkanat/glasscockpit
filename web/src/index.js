@@ -11,3 +11,13 @@ client.eventbus.on("data", (data) => {
   const heading = data["PLANE HEADING DEGREES TRUE"];
   map.planeMarker.update([lat, lng], heading);
 });
+
+document.querySelector(".teleport_button").addEventListener("click", () => {
+  const [lat, lng] = map.teleportDestination;
+  client.teleport({
+    lat: lat,
+    lng: lng,
+    hdg: parseInt(document.querySelector("[name=heading]").value),
+    alt: parseInt(document.querySelector("[name=altitude]").value),
+  });
+});
