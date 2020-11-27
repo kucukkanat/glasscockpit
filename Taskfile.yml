@@ -6,16 +6,17 @@ env:
 
 tasks:
   dev:
-    dir: server
+    dir: .
     cmds:
-      - go run main.go
+      - go run -ldflags="-X 'main.BuildENV=development'" main.go
     sources:
-      - server/**/*.go
+      - ./**/*.go
     method: timestamp
   build:
-    dir: server
+    dir: .
     cmds:
-      - go build -o ../bin/${BINARY_NAME}.exe main.go
+      - pkger
+      - go build -o ./bin/${BINARY_NAME}.exe -ldflags="-X 'main.BuildENV=production'" main.go
   run:
     dir: bin
     cmds:

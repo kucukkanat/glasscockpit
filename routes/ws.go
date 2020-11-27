@@ -4,27 +4,22 @@ import (
 	"cockpitserver/shared"
 	"encoding/json"
 	"fmt"
-	"time"
+	"net/http"
 
-	"github.com/gofiber/websocket/v2"
+	"github.com/gorilla/websocket"
 )
 
-func Ws(c *websocket.Conn) {
-	_, simChannel := shared.CreateSimConnectConnection("socketconn")
-	for {
-		result := <-simChannel
-		changedVars := map[string]interface{}{}
-		for _, simVar := range result {
-			f, err := simVar.GetFloat64()
-			if err != nil {
-				panic(err)
-			}
-			changedVars[simVar.Name] = f
-		}
-		marshalled, _ := json.Marshal(changedVars)
-		fmt.Printf("%+v", string(marshalled))
-		time.Sleep(3 * time.Second)
-		c.WriteMessage(websocket.TextMessage, marshalled)
+func Ws(w http.ResponseWriter, r *http.Request) {
+	var upgrader = websocket.Upgrader{}
+	// Cross origin allow
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+	ws, _err := upgrader.Upgrade(w, r, nil)
+	if _err != nil {
+		fmt.Println(_err)
 	}
-
+	_, variableChannel := shared.CreateSimConnectConnection("socket-connection")
+	for {
+		marshalled, _ := json.Marshal(<-variableChannel)
+		ws.WriteMessage(websocket.TextMessage, marshalled)
+	}
 }
