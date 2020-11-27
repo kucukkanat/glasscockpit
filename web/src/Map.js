@@ -1,5 +1,6 @@
 import * as L from "leaflet";
 import "leaflet-rotatedmarker";
+import { client } from "./GameClient";
 const defaultPosition = [51.505, -0.09];
 export class Map {
   /**
@@ -7,6 +8,7 @@ export class Map {
    */
   constructor(divID) {
     this.map = L.map(divID).setView(defaultPosition, 13);
+    this.teleportDestination = defaultPosition;
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
@@ -23,6 +25,20 @@ export class Map {
     );
     this.planeMarker = new PlaneMarker();
     this.planeMarker.addToMap(this.map);
+
+    // Teleport marker functionality
+    this.teleportmarker = L.marker([50.5, 30.5]).addTo(this.map);
+
+    this.map.on("click", (event) => {
+      const { lat, lng } = event.latlng;
+      client.teleport({
+        lat: lat,
+        lng: lng,
+        hdg: parseInt(document.querySelector("[name=heading]").value),
+        alt: parseInt(document.querySelector("[name=altitude]").value),
+      });
+      console.log(event);
+    });
   }
   /**
    *

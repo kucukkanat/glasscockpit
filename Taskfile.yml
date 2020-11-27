@@ -5,18 +5,27 @@ env:
   BINARY_NAME: cockpitserver
 
 tasks:
-  dev:
+  dev_go:
     dir: .
     cmds:
       - go run -ldflags="-X 'main.BuildENV=development'" main.go
-    sources:
-      - ./**/*.go
-    method: timestamp
+
   build:
     dir: .
     cmds:
       - pkger
+      - task: build_web
       - go build -o ./bin/${BINARY_NAME}.exe -ldflags="-X 'main.BuildENV=production'" main.go
+      - cp SimConnect.dll bin/SimConnect.dll
+
+  build_web:
+    dir: web
+    cmds:
+      - yarn build
+    sources:
+      - web/src/**/*
+    method: timestamp
+
   run:
     dir: bin
     cmds:

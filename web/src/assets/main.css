@@ -19,3 +19,29 @@ body {
   font-family: "Digital";
   src: url("/assets/fonts/Digital.ttf");
 }
+#map {
+  position: relative;
+  z-index: 1;
+}
+#menu input {
+  padding: 10px;
+  font-family: Teko;
+  font-size: 26px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  display: inline-block;
+}
+#menu {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+  padding: 10px;
+  background-color: #fff;
+}
+.teleport_button {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 20px;
+}
