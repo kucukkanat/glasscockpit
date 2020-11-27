@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Teko, Tahoma;
+}
+
+@font-face {
+  font-family: "Teko";
+  src: url("/assets/fonts/Teko-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Teko";
+  font-weight: bold;
+  src: url("/assets/fonts/Teko-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Digital";
+  src: url("/assets/fonts/Digital.ttf");
+}
