@@ -98,6 +98,7 @@ var SimVarMap = map[string]simconnect.SimVar{
 type SimVariable map[string]float64
 
 func CreateSimConnectConnection(appName string) (*simconnect.EasySimConnect, <-chan SimVariable) {
+
 	sc, err := simconnect.NewEasySimConnect()
 	if err != nil {
 		panic(err)

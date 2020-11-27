@@ -56,3 +56,5 @@ export class GameClient {
     });
   }
 }
+
+export const client = new GameClient();
