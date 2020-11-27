@@ -73,8 +73,10 @@ var SimVarMap = map[string]simconnect.SimVar{
 	"LIGHT NAV":     simconnect.SimVarLightNav(),
 	"LIGHT CABIN":   simconnect.SimVarLightCabin(),
 	// Misc
-	"GEAR POSITION": simconnect.SimVarGearPosition(),
-	"SIM ON GROUND": simconnect.SimVarSimOnGround(),
+	"GEAR POSITION":       simconnect.SimVarGearPosition(),
+	"SIM ON GROUND":       simconnect.SimVarSimOnGround(),
+	"PLANE PITCH DEGREES": simconnect.SimVarPlanePitchDegrees(),
+	"PLANE BANK DEGREES":  simconnect.SimVarPlaneBankDegrees(),
 	// Autopilot
 	"AUTOPILOT AVAILABLE":         simconnect.SimVarAutopilotAvailable(),
 	"AUTOPILOT MASTER":            simconnect.SimVarAutopilotMaster(),
@@ -93,7 +95,9 @@ var SimVarMap = map[string]simconnect.SimVar{
 	"NAV STANDBY FREQUENCY": simconnect.SimVarNavStandbyFrequency(),
 }
 
-func CreateSimConnectConnection(appName string) (*simconnect.EasySimConnect, <-chan []simconnect.SimVar) {
+type SimVariable map[string]float64
+
+func CreateSimConnectConnection(appName string) (*simconnect.EasySimConnect, <-chan SimVariable) {
 	sc, err := simconnect.NewEasySimConnect()
 	if err != nil {
 		panic(err)
@@ -109,12 +113,32 @@ func CreateSimConnectConnection(appName string) (*simconnect.EasySimConnect, <-c
 			break // wait sim start
 		}
 	}
+
+	// Collect all registered sim variables
 	var simvars []simconnect.SimVar = []simconnect.SimVar{}
 	for _, variable := range SimVarMap {
 		simvars = append(simvars, variable)
 	}
-	simVariableChannel, err := sc.ConnectToSimVar(
+	// Connect to all variables
+	cSimVar, err := sc.ConnectToSimVar(
 		simvars...,
 	)
+
+	// Structure the received sim variable to pass to a live stream
+	simVariableChannel := make(chan SimVariable)
+	go func() {
+		for {
+			result := <-cSimVar
+			t := SimVariable{}
+			for _, simVar := range result {
+				f, err := simVar.GetFloat64()
+				if err != nil {
+					panic(err)
+				}
+				t[simVar.Name] = f
+			}
+			simVariableChannel <- t
+		}
+	}()
 	return sc, simVariableChannel
 }
