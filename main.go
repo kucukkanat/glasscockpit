@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	addr     = flag.String("addr", "127.0.0.1:8080", "http service address")
+	addr     = flag.String("addr", "0.0.0.0:8080", "http service address")
 	BuildENV string
 )
 
