@@ -47,8 +47,8 @@ export class Map {
    * @param {[number,number]} center
    * @param {number} zoom
    */
-  setView(center, zoom = 13) {
-    this.map.setView(center, zoom);
+  setView(center) {
+    this.map.setView(center);
   }
 }
 
