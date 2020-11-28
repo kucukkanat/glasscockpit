@@ -10,6 +10,9 @@ client.eventbus.on("data", (data) => {
   const lng = data["PLANE LONGITUDE"];
   const heading = data["PLANE HEADING DEGREES TRUE"];
   map.planeMarker.update([lat, lng], heading);
+  if (map.followPlane) {
+    map.setView([lat, lng]);
+  }
 });
 
 document.querySelector(".teleport_button").addEventListener("click", () => {

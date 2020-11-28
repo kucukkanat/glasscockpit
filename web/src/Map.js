@@ -7,6 +7,7 @@ export class Map {
    * @param {string} divID
    */
   constructor(divID) {
+    this.followPlane = true;
     this.map = L.map(divID).setView(defaultPosition, 13);
     this.teleportDestination = defaultPosition;
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -25,6 +26,12 @@ export class Map {
     );
     this.planeMarker = new PlaneMarker();
     this.planeMarker.addToMap(this.map);
+    this.planeMarker.marker.on("click", () => {
+      this.followPlane = true;
+    });
+    this.map.on("drag", () => {
+      this.followPlane = false;
+    });
 
     // Teleport marker functionality
     this.teleportmarker = L.marker([50.5, 30.5]).addTo(this.map);
