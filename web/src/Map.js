@@ -1,16 +1,20 @@
 import * as L from "leaflet";
 import "leaflet-rotatedmarker";
 import "leaflet.markercluster";
+import { Emitter } from "./emitter";
 
 const defaultPosition = [51.505, -0.09];
-export class Map {
+export class Map extends Emitter {
   /**
    * @param {string} divID
    */
   constructor(divID) {
+    super();
     this.followPlane = true;
-    this.map = L.map(divID).setView(defaultPosition, 13);
     this.teleportDestination = defaultPosition;
+
+    // Create the map
+    this.map = L.map(divID).setView(defaultPosition, 13);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
@@ -25,23 +29,27 @@ export class Map {
           'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
       }
     );
-    this.planeMarker = new PlaneMarker();
-    this.planeMarker.addToMap(this.map);
+
+    // Create plane marker
+    this.planeMarker = new PlaneMarker(this.map);
     this.planeMarker.marker.on("click", () => {
       this.followPlane = true;
     });
-    this.map.on("drag", () => {
+    this.map.on("drag", (event) => {
       this.followPlane = false;
+      this.emit("drag", event);
     });
 
     // Teleport marker functionality
     this.teleportmarker = L.marker([50.5, 30.5]).addTo(this.map);
 
     this.map.on("click", (event) => {
+      this.emit("click", event);
       const { lat, lng } = event.latlng;
       this.teleportmarker.setLatLng([lat, lng]);
       this.teleportDestination = [lat, lng];
     });
+    this.map.on("move", (e) => this.emit("move", e));
   }
   /**
    *
@@ -54,7 +62,7 @@ export class Map {
 }
 
 class PlaneMarker {
-  constructor() {
+  constructor(map) {
     const iconSize = 40;
     const planeIcon = L.icon({
       iconUrl: "/assets/images/plane.svg",
@@ -67,8 +75,6 @@ class PlaneMarker {
       rotationAngle: 0,
       rotationOrigin: "center",
     });
-  }
-  addToMap(map) {
     this.marker.addTo(map);
   }
   /**

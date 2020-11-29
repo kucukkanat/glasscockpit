@@ -19,6 +19,7 @@ type AirportsRequest struct {
 	NorthEast LatLngTuple `json:"northEast"`
 }
 
+// Airports is the Request handler
 func Airports(w http.ResponseWriter, r *http.Request) {
 
 	var decodedRequest AirportsRequest
