@@ -1,6 +1,7 @@
 import * as L from "leaflet";
 import "leaflet-rotatedmarker";
-import { client } from "./GameClient";
+import "leaflet.markercluster";
+
 const defaultPosition = [51.505, -0.09];
 export class Map {
   /**

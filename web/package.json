@@ -12,6 +12,7 @@
     "html-webpack-plugin": "^4.5.0",
     "leaflet": "^1.7.1",
     "leaflet-rotatedmarker": "^0.2.0",
+    "leaflet.markercluster": "^1.4.1",
     "webpack": "^5.8.0",
     "webpack-cli": "^4.2.0"
   }
