@@ -19,12 +19,14 @@ var (
 
 func main() {
 	fmt.Println(BuildENV)
+
 	if BuildENV == "production" {
 		http.Handle("/", http.FileServer(pkger.Dir("/web/dist")))
 	} else {
 		http.Handle("/", http.FileServer(http.Dir("./web/dist")))
 	}
 	http.HandleFunc("/teleport", routes.Teleport)
+	http.HandleFunc("/airports", routes.Airports)
 	http.HandleFunc("/ws", routes.Ws)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
