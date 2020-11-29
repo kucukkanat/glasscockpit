@@ -63,7 +63,7 @@ export class Map extends Emitter {
 
 class PlaneMarker {
   constructor(map) {
-    const iconSize = 40;
+    const iconSize = 80;
     const planeIcon = L.icon({
       iconUrl: "/assets/images/plane.svg",
       iconSize: [iconSize, iconSize],

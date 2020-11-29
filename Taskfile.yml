@@ -18,6 +18,13 @@ tasks:
       - task: build_web
       - go build -o ./bin/${BINARY_NAME}.exe -ldflags="-X 'main.BuildENV=production'" main.go
       - cp SimConnect.dll bin/SimConnect.dll
+  build_demo:
+    dir: .
+    cmds:
+      - pkger
+      - task: build_web
+      - go build -o ./bin/${BINARY_NAME}.exe -ldflags="-X 'main.BuildENV=production'" main.go
+      - cp SimConnect.dll bin/SimConnect.dll
   dev_web:
     dir: web
     cmds:

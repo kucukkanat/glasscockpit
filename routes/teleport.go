@@ -3,7 +3,6 @@ package routes
 import (
 	"cockpitserver/shared"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -34,5 +33,5 @@ func Teleport(w http.ResponseWriter, r *http.Request) {
 	}{Pitch: 0, Bank: 0})
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	fmt.Fprintf(w, "Plane: %+v", reqParams)
+	w.Write([]byte("{\"status\":\"OK\"}"))
 }
