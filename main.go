@@ -25,6 +25,7 @@ func main() {
 	} else {
 		http.Handle("/", http.FileServer(http.Dir("./web/dist")))
 	}
+	http.HandleFunc("/event", routes.Event)
 	http.HandleFunc("/teleport", routes.Teleport)
 	http.HandleFunc("/airports", routes.Airports)
 	http.HandleFunc("/ws", routes.Ws)

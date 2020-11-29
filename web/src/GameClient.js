@@ -89,3 +89,4 @@ export class GameClient extends Emitter {
 }
 
 export const client = new GameClient();
+window.client = client;

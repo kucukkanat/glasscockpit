@@ -17,7 +17,6 @@ type TeleportRequest struct {
 var connection, _ = shared.CreateSimConnectConnection("setvar-connection")
 
 func Teleport(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Teleport request")
 	var reqParams TeleportRequest
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
