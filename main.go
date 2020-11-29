@@ -21,7 +21,6 @@ var (
 )
 
 func main() {
-	fmt.Println(BuildENV)
 	if BuildENV == "demo" {
 		TriggerDEMOCheck()
 	}
