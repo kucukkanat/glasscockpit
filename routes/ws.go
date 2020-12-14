@@ -9,6 +9,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var _, variableChannel = shared.CreateSimConnectConnection("socket-connection")
+
 func Ws(w http.ResponseWriter, r *http.Request) {
 	var upgrader = websocket.Upgrader{}
 	// Cross origin allow
@@ -17,7 +19,6 @@ func Ws(w http.ResponseWriter, r *http.Request) {
 	if _err != nil {
 		fmt.Println(_err)
 	}
-	_, variableChannel := shared.CreateSimConnectConnection("socket-connection")
 	for {
 		marshalled, _ := json.Marshal(<-variableChannel)
 		ws.WriteMessage(websocket.TextMessage, marshalled)
