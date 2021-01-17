@@ -44,6 +44,8 @@ var SimEventMap = map[string]simconnect.KeySimEvent{
 	"TOGGLE_RECOGNITION_LIGHTS": simconnect.KeyToggleRecognitionLights,
 	"PANEL_LIGHTS_TOGGLE":       simconnect.KeyPanelLightsToggle,
 	"ALL_LIGHTS_TOGGLE":         simconnect.KeyAllLightsToggle,
+	// Sim Rate
+	"KEY_SIM_RATE": simconnect.KeySimRate,
 }
 var SimVarMap = map[string]simconnect.SimVar{
 	// Master

@@ -40,7 +40,8 @@ body {
   padding: 10px;
   background-color: #fff;
 }
-.teleport_button {
+.teleport_button,
+.sr-button {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;

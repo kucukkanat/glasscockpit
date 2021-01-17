@@ -53,3 +53,15 @@ document.querySelector(".teleport_button").addEventListener("click", () => {
     alt: parseInt(document.querySelector("[name=altitude]").value),
   });
 });
+
+document.getElementById("sim_rate_plus").addEventListener("click", async () => {
+  await client.sendEvent({ eventname: "KEY_SIM_RATE" });
+  await client.sendEvent({ eventname: "PLUS" });
+});
+
+document
+  .getElementById("sim_rate_minus")
+  .addEventListener("click", async () => {
+    await client.sendEvent({ eventname: "KEY_SIM_RATE" });
+    await client.sendEvent({ eventname: "MINUS" });
+  });
